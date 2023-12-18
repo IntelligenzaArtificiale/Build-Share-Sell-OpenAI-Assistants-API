@@ -111,8 +111,8 @@ if openaiKey:
                 #cambia estensione e nome del file nome_assistente.iaItaliaBotConfig e st.download_button
                 col4.download_button(
                     label="Scarica il file di configurazione dell'assistente",
-                    data="config_assistente.zip",
-                    file_name=nome_assistente + ".zip",
+                    data=open("config_assistente.zip", "rb"),
+                    file_name=nome_assistente + ".iaItaliaBotConfig",
                     mime="application/zip",
                 )
 
