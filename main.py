@@ -1,28 +1,23 @@
 import openai
-from openai import OpenAI
-from tempfile import NamedTemporaryFile
 import streamlit as st
 import time
-
+import os
 
 st.title("Assistant BUILDER & SHARING")
 
-
 openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 
-def upload_to_openai(filepath):
+def upload_to_openai(file):
     """Upload a file to OpenAI and return its file ID."""
-    with open(filepath, "rb") as file:
-        response = openai.files.create(file=file.read(), purpose="assistants")
-    return response.id
+    with open(file.name, "rb") as f:
+        response = openai.File.create(file=f.read(), purpose="assistants")
+    return response.id if response else None
 
 if openaiKey:
-
-    import os
-
     os.environ["OPENAI_API_KEY"] = openaiKey
     openai.api_key = openaiKey
-    client = OpenAI()
+    client = openai.OpenAI()
+
     col1, col2 = st.columns(2)
 
     with col1:
@@ -30,70 +25,61 @@ if openaiKey:
 
     with col2:
         modello_assistente = st.selectbox(
-        'Scegli il modello ',
-        ('gpt-4-1106-preview', 'gpt-4-1106-preview', 'gpt-4-1106-preview'))
+            'Scegli il modello',
+            ('gpt-4-1106-preview', 'gpt-4'),
+            index=0
+        )
 
     if nome_assistente and modello_assistente:
-
         prompt_sistema = st.text_area("Prompt del sistema", height=200)
+        carica_file = st.checkbox("Vuoi caricare File? ")
 
-    stored_file = []
-
-    carica_file = st.checkbox("Vuoi caricare File ? ")
-
-    if carica_file:
-        file_up = st.file_uploader("Carica il file", type=['csv',"txt","pdf"] ,accept_multiple_files = True)
-        
-
-        if file_up:
-            if st.button("Carica i file su OpenAI"):
-                with st.status("Carico i file su OpenAI..", expanded=True) as status:
+        stored_file = []
+        if carica_file:
+            file_up = st.file_uploader("Carica il file", type=['csv', 'txt', 'pdf'], accept_multiple_files=True)
+            if file_up:
+                with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
                     for file in file_up:
                         time.sleep(2)
                         status.update(label="Sto caricando il file: " + file.name)
-                        with open(f"{file.name}", "wb") as f:
+                        with open(file.name, "wb") as f:
                             f.write(file.getbuffer())
-                        additional_file_id = upload_to_openai(f"{file.name}")
-                        st.write("Abbiamo caricato il file: " + file.name)
-                        stored_file.append(additional_file_id)
+                        additional_file_id = upload_to_openai(file)
+                        if additional_file_id:
+                            st.write("File caricato con successo: " + file.name)
+                            stored_file.append(additional_file_id)
                     status.update(label="File caricati con successo", state="complete", expanded=False)
 
-
-
-    if (st.button("Crea Assistente") and nome_assistente and modello_assistente and prompt_sistema):
-
-        with st.status("Mi sto collegando ad OpenAI..", expanded=True) as status:
-
-            if file_up: 
+        if st.button("Crea Assistente") and prompt_sistema:
+            with st.status("Creazione assistente in corso...", expanded=True) as status:
                 time.sleep(2)
-                status.update(label="Creo l'assistente..")
-                st.write(stored_file)
-                my_assistant = client.beta.assistants.create(
-                    instructions=prompt_sistema,
-                    name=nome_assistente,
-                    tools=[{"type": "retrieval"}],
-                    model=modello_assistente,
-                    file_ids=stored_file,
-                )
-                time.sleep(2)
-                status.update(label="Assistente creato con successo", state="complete")
-                
-                st.success("Assistente creato con successo")
-                st.info("L'id dell'assistente è: " + my_assistant.id)
-                st.error("Ricorda di salvare l'id dell'assistente per poterlo utilizzare in seguito")
+                status.update(label="Creo l'assistente...")
+                if stored_file:
+                    my_assistant = client.beta.assistants.create(
+                        instructions=prompt_sistema,
+                        name=nome_assistente,
+                        tools=[{"type": "retrieval"}],
+                        model=modello_assistente,
+                        file_ids=stored_file,
+                    )
+                else:
+                    my_assistant = client.beta.assistants.create(
+                        instructions=prompt_sistema,
+                        name=nome_assistente,
+                        model=modello_assistente,
+                    )
 
-            else:
-                status.update(label="Creo l'assistente..")
-                my_assistant = client.beta.assistants.create(
-                    instructions=prompt_sistema,
-                    name=nome_assistente,
-                    model=modello_assistente,
-                )
                 time.sleep(2)
                 status.update(label="Assistente creato con successo", state="complete")
 
                 st.success("Assistente creato con successo")
-                st.info("L'id dell'assistente è: " + my_assistant.id)
-                st.error("Ricorda di salvare l'id dell'assistente per poterlo utilizzare in seguito")
+                st.info("L'ID dell'assistente è: " + my_assistant.id)
+                st.error("Ricorda di salvare l'ID dell'assistente per utilizzarlo in seguito")
 
-        
+                #crea un bottone per scaricare un file.txt con l'ID dell'assistente
+                st.download_button(
+                    label="Scarica l'ID dell'assistente",
+                    data=my_assistant.id,
+                    file_name="id_assistente.txt",
+                    mime="text/plain",
+                )
