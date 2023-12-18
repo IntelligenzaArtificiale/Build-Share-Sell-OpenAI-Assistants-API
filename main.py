@@ -2,6 +2,7 @@ import openai
 import streamlit as st
 import time
 import os
+import zipfile
 
 st.title("Assistant BUILDER & SHARING")
 
@@ -150,7 +151,6 @@ if openaiKey:
                     file_yaml.close()
 
                     #CREO IL FILE ZIP
-                    import zipfile
                     zip_file = zipfile.ZipFile("config_assistente.zip", "w")
                     zip_file.write("config_assistente.yaml")
 
