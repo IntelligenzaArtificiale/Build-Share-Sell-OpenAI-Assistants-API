@@ -105,12 +105,18 @@ if openaiKey:
                         file_yaml = open("config_assistente.yaml", "w")
                         file_yaml.write("name: " + nome_assistente + "\n")
                         file_yaml.write("model: " + modello_assistente + "\n")
-                        file_yaml.write("prompt: " + prompt_sistema + "\n")
                         file_yaml.close()
+
+                        #Crea file.txt per sistem_prompt
+                        file_prompt = open("prompt.txt", "w")
+                        file_prompt.write(prompt_sistema)
+                        file_prompt.close()
+
 
                         #CREO IL FILE ZIP
                         zip_file = zipfile.ZipFile("config_assistente.zip", "w")
                         zip_file.write("config_assistente.yaml")
+                        zip_file.write("prompt.txt")
 
                         if file_up:
                             for file in file_up:

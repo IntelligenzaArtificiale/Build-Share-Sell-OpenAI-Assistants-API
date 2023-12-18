@@ -29,10 +29,12 @@ def create_assistant_from_config_file(file_up, client):
             config_data = yaml.safe_load(yaml_file)
             nome_assistente = config_data.get('name', '')
             modello_assistente = config_data.get('model', '')
-            prompt_sistema = config_data.get('prompt', '')
             st.write("Nome Assistente: " + nome_assistente)
             st.write("Modello Assistente: " + modello_assistente)
 
+        with open("temp_folder/prompt.txt", "r") as prompt_file:
+            prompt_sistema = prompt_file.read()
+            
 
         if os.path.exists("temp_folder"):
             for root, dirs, files in os.walk("temp_folder"):
