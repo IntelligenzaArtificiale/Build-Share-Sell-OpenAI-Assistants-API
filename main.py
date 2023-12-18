@@ -19,13 +19,14 @@ def upload_to_openai(file):
 
 def create_assistant_from_config_file(file_up, client):
     stored_file = []
+
     with st.spinner("Estrazione e caricamento file in corso..."):
         #cambia l'estensione del file da .iaItaliaBotConfig a .zip
-        with open("temp_folder/config_assistente.zip", "wb") as f:
+        with open("config_assistente.zip", "wb") as f:
             f.write(file_up.getbuffer())
         f.close()
 
-        with zipfile.ZipFile("temp_folder/config_assistente.zip", "r") as zip_ref:
+        with zipfile.ZipFile("config_assistente.zip", "r") as zip_ref:
             zip_ref.extractall("temp_folder")
 
         with open("temp_folder/config_assistente.yaml", "r") as yaml_file:
