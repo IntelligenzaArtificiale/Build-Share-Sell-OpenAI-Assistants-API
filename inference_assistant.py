@@ -1,6 +1,6 @@
 import streamlit as st
 import openai
-
+import time
 
 def inference(id_assistente):
     if "msg_bot" not in st.session_state:
