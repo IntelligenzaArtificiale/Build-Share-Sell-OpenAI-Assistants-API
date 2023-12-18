@@ -12,7 +12,7 @@ openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 def upload_to_openai(file):
     """Upload a file to OpenAI and return its file ID."""
     with open(file.name, "rb") as f:
-        response = openai.File.create(file=f.read(), purpose="assistants")
+        response = openai.files.create(file=f.read(), purpose="assistants")
     return response.id if response else None
 
 if openaiKey:
