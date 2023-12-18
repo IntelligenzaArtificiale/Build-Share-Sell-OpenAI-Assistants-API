@@ -89,33 +89,32 @@ if openaiKey:
                 mime="text/plain",
             )
 
-            if col4.button("Condividi Assistente"):
-                #Creo un file.zip con la configurazione dell'assistente
-                with st.spinner("Creo il file di configurazione dell'assistente..."):
-                    time.sleep(2)
-                    
-                    #CREO IL FILE DI CONFIGURAZIONE YAML con i dati dell'assistente : Nome, Modello, Sistem_prompt
-                    file_yaml = open("config_assistente.yaml", "w")
-                    file_yaml.write("name: " + nome_assistente + "\n")
-                    file_yaml.write("model: " + modello_assistente + "\n")
-                    file_yaml.write("prompt: " + prompt_sistema + "\n")
-                    file_yaml.close()
+            with st.spinner("Creo il file di configurazione dell'assistente..."):
+                time.sleep(2)
+                
+                #CREO IL FILE DI CONFIGURAZIONE YAML con i dati dell'assistente : Nome, Modello, Sistem_prompt
+                file_yaml = open("config_assistente.yaml", "w")
+                file_yaml.write("name: " + nome_assistente + "\n")
+                file_yaml.write("model: " + modello_assistente + "\n")
+                file_yaml.write("prompt: " + prompt_sistema + "\n")
+                file_yaml.close()
 
-                    #CREO IL FILE ZIP
-                    import zipfile
-                    zip_file = zipfile.ZipFile("config_assistente.zip", "w")
-                    zip_file.write("config_assistente.yaml")
-                    for file in stored_file:
-                        zip_file.write(file)
-                    zip_file.close()
+                #CREO IL FILE ZIP
+                import zipfile
+                zip_file = zipfile.ZipFile("config_assistente.zip", "w")
+                zip_file.write("config_assistente.yaml")
+                
+                for file in stored_file:
+                    zip_file.write(file)
+                zip_file.close()
 
-                    #cambia estensione e nome del file nome_assistente.iaItaliaBotConfig e st.download_button
-                    st.download_button(
-                        label="Scarica il file di configurazione dell'assistente",
-                        data="config_assistente.zip",
-                        file_name=nome_assistente + ".iaItaliaBotConfig",
-                        mime="application/zip",
-                    )
+                #cambia estensione e nome del file nome_assistente.iaItaliaBotConfig e st.download_button
+                col4.download_button(
+                    label="Scarica il file di configurazione dell'assistente",
+                    data="config_assistente.zip",
+                    file_name=nome_assistente + ".iaItaliaBotConfig",
+                    mime="application/zip",
+                )
 
 
                 st.balloons()
