@@ -48,13 +48,18 @@ if openaiKey:
         if file_up:
             if len(file_up) > 1:
                 for file in file_up:
-                    # carico i file su openai 
-                    file = client.files.create(
-                    file=open(file.name, "rb"),
-                    purpose='assistants'
-                    )
-                    stored_file.append(file)
-                    st.write(file)
+                    with NamedTemporaryFile(delete=False) as tmp_file:
+                        tmp_file.write(file.read())
+                        st.write(tmp_file.name)
+
+                        #carico il file su openai
+                        file = client.files.create(
+                        file=open(tmp_file.name, "rb"),
+                        purpose='assistants'
+                        )
+                        stored_file.append(file)
+                        st.write(file)
+                        
             else:
                 file = client.files.create(
                     file=open(file_up.name, "rb"),
