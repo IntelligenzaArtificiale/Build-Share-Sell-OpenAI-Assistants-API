@@ -85,7 +85,7 @@ if openaiKey:
             col3.download_button(
                 label="Scarica l'ID dell'assistente",
                 data=my_assistant.id,
-                file_name="id_assistente.txt",
+                file_name="id_assistente_" + nome_assistente.replace(" ", "_") + ".txt",
                 mime="text/plain",
             )
 
@@ -103,7 +103,7 @@ if openaiKey:
                 import zipfile
                 zip_file = zipfile.ZipFile("config_assistente.zip", "w")
                 zip_file.write("config_assistente.yaml")
-                
+
                 for file in stored_file:
                     zip_file.write(file)
                 zip_file.close()
