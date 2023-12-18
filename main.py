@@ -71,28 +71,15 @@ if openaiKey:
 
             if file_up: 
                 st.write("Carico i file su OpenAI..")
-                file_id = []
-                for file in file_up:
-                    try:
-                        my_file = client.files.create(
-                        file=open(file.name, "rb"),
-                        purpose='assistants'
-                        )
-                        time.sleep(1)
-                        status.update(label="File caricato: " + my_file.name)
-                        print(my_file.id)
-                    except:
-                        print("file non caricato")
-
-                status.update(label="File caricati con successo")
                 time.sleep(2)
                 status.update(label="Creo l'assistente..")
+                st.write(stored_file)
                 my_assistant = client.beta.assistants.create(
                     instructions=prompt_sistema,
                     name=nome_assistente,
                     tools=[{"type": "retrieval"}],
                     model=modello_assistente,
-                    file_ids=file_id
+                    file_ids=stored_file
                 )
                 st.write(my_assistant)
                 status.update(label="Assistente creato con successo", state="complete")
