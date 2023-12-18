@@ -10,13 +10,11 @@ st.title("Assistant BUILDER")
 
 openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 
-def upload_file(file_path):
-	# Upload a file with an "assistants" purpose
-	file_to_upload = client.files.create(
-  	file=open(file_path, "rb"),
-  	purpose='assistants'
-	)
-	return file_to_upload
+def upload_to_openai(filepath):
+    """Upload a file to OpenAI and return its file ID."""
+    with open(filepath, "rb") as file:
+        response = openai.files.create(file=file.read(), purpose="assistants")
+    return response.id
 
 if openaiKey:
 
@@ -48,20 +46,11 @@ if openaiKey:
         if file_up:
             if st.button("Carica i file su OpenAI"):
                 for file in file_up:
-                    suffix = file.name.split(".")[-1]
-                    st.write(suffix)
+                    st.write(file.name)
                     time.sleep(2)
-                    with NamedTemporaryFile(dir='.', suffix=f".{suffix}", delete=False) as tmp_file:
-                        tmp_file.write(file.read())
-                        st.write(tmp_file.name)
-
-                        #carico il file su openai
-                        file = client.files.create(
-                        file=open(tmp_file.name, "rb"),
-                        purpose='assistants'
-                        )
-                        stored_file.append(file)
-                        st.write(file)
+                    with open(f"{file.name}", "wb") as f:
+                        f.write(file.getbuffer())
+                    additional_file_id = upload_to_openai(f"{file.name}")
 
 
 
