@@ -31,7 +31,7 @@ if openaiKey:
     stored_file = None
 
     if st.checkbox("Vuoi caricare File ? "):
-        file = st.file_uploader("Carica il file", type=["txt, pdf"], accept_multiple_files = True)
+        file = st.file_uploader("Carica il file", accept_multiple_files = True)
 
         if file:
             stored_file = file
