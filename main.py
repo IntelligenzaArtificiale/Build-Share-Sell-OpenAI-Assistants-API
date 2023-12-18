@@ -11,31 +11,32 @@ openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 
 if openaiKey:
 
-    try: 
-        openai.api_key = openaiKey
 
-        col1, col2 = st.columns(2)
+    openai.api_key = openaiKey
 
-        with col1:
-            nome_assistente = st.text_input("Nome dell'assistente")
+    col1, col2 = st.columns(2)
 
-        with col2:
-            modello_assistente = st.selectbox(
-            'How would you like to be contacted?',
-            ('gpt-4-1106-preview', 'gpt-4-1106-preview', 'gpt-4-1106-preview'))
+    with col1:
+        nome_assistente = st.text_input("Nome dell'assistente")
 
-        if nome_assistente and modello_assistente:
+    with col2:
+        modello_assistente = st.selectbox(
+        'Scegli il modello ',
+        ('gpt-4-1106-preview', 'gpt-4-1106-preview', 'gpt-4-1106-preview'))
 
-            prompt_sistema = st.text_area("Prompt del sistema", height=200)
+    if nome_assistente and modello_assistente:
 
-        stored_file = None
+        prompt_sistema = st.text_area("Prompt del sistema", height=200)
 
-        if st.checkbox("Vuoi caricare File ? "):
-            file = st.file_uploader("Carica il file", type=["txt, pdf"], accept_multiple_files = True)
+    stored_file = None
 
-            if file:
-                stored_file = file
+    if st.checkbox("Vuoi caricare File ? "):
+        file = st.file_uploader("Carica il file", type=["txt, pdf"], accept_multiple_files = True)
 
+        if file:
+            stored_file = file
+
+    if st.button("Crea Assistente"):
 
         if stored_file is not None:
             file_id = []
@@ -73,5 +74,3 @@ if openaiKey:
             print(my_assistant)
 
     
-    except:
-        st.error("API Key non valida")
