@@ -45,23 +45,24 @@ if openaiKey:
 
         if file_up:
             if st.button("Carica i file su OpenAI"):
+                with st.status("Carico i file su OpenAI..", expanded=True) as status:
                 for file in file_up:
-                    st.write(file.name)
                     time.sleep(2)
+                    status.update(label="Sto caricando il file: " + file.name)
                     with open(f"{file.name}", "wb") as f:
                         f.write(file.getbuffer())
                     additional_file_id = upload_to_openai(f"{file.name}")
+                    st.write(additional_file_id)
+                    stored_file.append(additional_file_id)
+                status.update(label="File caricati con successo", state="complete")
 
 
 
     if (st.button("Crea Assistente") and nome_assistente and modello_assistente and prompt_sistema):
 
-        with st.status("Carico i documenti su OpenAI..", expanded=True) as status:
-
-            
+        with st.status("Mi sto collegando ad OpenAI..", expanded=True) as status:
 
             if file_up: 
-                st.write("Carico i file su OpenAI..")
                 time.sleep(2)
                 status.update(label="Creo l'assistente..")
                 st.write(stored_file)
@@ -70,9 +71,9 @@ if openaiKey:
                     name=nome_assistente,
                     tools=[{"type": "retrieval"}],
                     model=modello_assistente,
-                    file_ids=stored_file
+                    file_ids=stored_file,
                 )
-                st.write(my_assistant)
+                time.sleep(2)
                 status.update(label="Assistente creato con successo", state="complete")
                 
                 st.success("Assistente creato con successo")
@@ -86,7 +87,7 @@ if openaiKey:
                     name=nome_assistente,
                     model=modello_assistente,
                 )
-                st.write(my_assistant)
+                time.sleep(2)
                 status.update(label="Assistente creato con successo", state="complete")
 
                 st.success("Assistente creato con successo")
