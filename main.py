@@ -6,7 +6,7 @@ import time
 st.title("Assistant BUILDER")
 
 
-openaiKey = st.input("Inserisci la tua API Key di OpenAI")
+openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 
 
 if openaiKey:
