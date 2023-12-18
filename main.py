@@ -5,7 +5,7 @@ import streamlit as st
 import time
 
 
-st.title("Assistant BUILDER")
+st.title("Assistant BUILDER & SHARING")
 
 
 openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
@@ -39,7 +39,9 @@ if openaiKey:
 
     stored_file = []
 
-    if st.checkbox("Vuoi caricare File ? "):
+    carica_file = st.checkbox("Vuoi caricare File ? ")
+
+    if carica_file:
         file_up = st.file_uploader("Carica il file", type=['csv',"txt","pdf"] ,accept_multiple_files = True)
         
 
@@ -52,9 +54,9 @@ if openaiKey:
                         with open(f"{file.name}", "wb") as f:
                             f.write(file.getbuffer())
                         additional_file_id = upload_to_openai(f"{file.name}")
-                        st.write(additional_file_id)
+                        st.write("Abbiamo caricato il file: " + file.name)
                         stored_file.append(additional_file_id)
-                    status.update(label="File caricati con successo", state="complete")
+                    status.update(label="File caricati con successo", state="complete", expanded=False)
 
 
 
