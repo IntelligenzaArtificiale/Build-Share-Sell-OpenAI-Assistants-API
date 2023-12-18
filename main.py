@@ -1,6 +1,6 @@
 import openai
 from openai import OpenAI
-
+from tempfile import NamedTemporaryFile
 import streamlit as st
 import time
 
