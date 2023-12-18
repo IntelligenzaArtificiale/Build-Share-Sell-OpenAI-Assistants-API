@@ -5,58 +5,14 @@ import os
 import zipfile
 import yaml
 
+from inference_assistant import inference
+from utils import create_assistant_from_config_file, upload_to_openai
+
 st.title("Assistant BUILDER & SHARING")
 
 utilizzo = st.selectbox("Ciao, cosa vuoi fare?", ("Crea o Importa un Assistente", "Usa un Assistente"))
 
 openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
-
-def upload_to_openai(file):
-    """Upload a file to OpenAI and return its file ID."""
-    with open(file.name, "rb") as f:
-        response = openai.files.create(file=f.read(), purpose="assistants")
-    return response.id if response else None
-
-
-
-def create_assistant_from_config_file(file_up, client):
-    stored_file = []
-
-    with st.spinner("Estrazione e caricamento file in corso..."):
-        #cambia l'estensione del file da .iaItaliaBotConfig a .zip
-        with open("config_assistente.zip", "wb") as f:
-            f.write(file_up.getbuffer())
-        f.close()
-
-        with zipfile.ZipFile("config_assistente.zip", "r") as zip_ref:
-            zip_ref.extractall("temp_folder")
-
-        with open("temp_folder/config_assistente.yaml", "r") as yaml_file:
-            config_data = yaml.safe_load(yaml_file)
-            nome_assistente = config_data.get('name', '')
-            modello_assistente = config_data.get('model', '')
-            prompt_sistema = config_data.get('prompt', '')
-            st.write("Nome Assistente: " + nome_assistente)
-            st.write("Modello Assistente: " + modello_assistente)
-
-
-        if os.path.exists("temp_folder"):
-            for root, dirs, files in os.walk("temp_folder"):
-                for file in files:
-                    if file != "config_assistente.yaml":
-                        additional_file_id = upload_to_openai(open(os.path.join(root, file), "rb"))
-                        if additional_file_id:
-                            stored_file.append(additional_file_id)
-
-            my_assistant = client.beta.assistants.create(
-                instructions=prompt_sistema,
-                name=nome_assistente,
-                tools=[{"type": "retrieval"}],
-                model=modello_assistente,
-                file_ids=stored_file,
-            )
-
-    return my_assistant
 
 
 if openaiKey:
@@ -204,94 +160,4 @@ if openaiKey:
         id_assistente = st.text_input("Inserisci l'ID dell'assistente")
 
         if id_assistente:
-            if "msg_bot" not in st.session_state:
-                st.session_state.msg_bot = []
-                st.session_state.msg_bot.append("Ciao, sono il tuo assistente AI...")
-                st.session_state.msg = []
-                
-                try :
-                    #create a thread
-                    thread = openai.beta.threads.create()
-                    my_thread_id = thread.id
-                
-                    st.session_state.thread_id = my_thread_id
-                except:
-                    st.error("C'è stato un problema con i Server di OpenAI")
-                    time.sleep(5)
-                    st.rerun()
-                    
-                
-
-            def get_response(domanda):
-                #create a message
-                if "thread_id" in st.session_state:
-                    try:
-                        message = openai.beta.threads.messages.create(
-                            thread_id=st.session_state.thread_id,
-                            role="user",
-                            content=domanda
-                        )
-                    
-                        #run
-                        run = openai.beta.threads.runs.create(
-                            thread_id=st.session_state.thread_id,
-                            assistant_id=id_assistente,
-                        )
-                    
-                        return run.id
-                    except:
-                        st.error("C'è stato un problema con i Server di OpenAI")
-
-                time.sleep(5)
-                st.rerun()
-
-            def check_status(run_id):
-                try: 
-                    run = openai.beta.threads.runs.retrieve(
-                        thread_id=st.session_state.thread_id,
-                        run_id=run_id,
-                    )
-                    return run.status
-                except:
-                    st.error("C'è stato un problema con i Server di OpenAI")
-                    time.sleep(5)
-                    st.rerun()
-
-
-            input = st.chat_input(placeholder="Scrivi quì la tua domanda...")
-
-            if input:
-                st.session_state.msg.append(input)
-                with st.spinner("Sto pensando..."):
-                    run_id = get_response(input)
-                    status = check_status(run_id)
-                    
-                    while status != "completed":
-                        status = check_status(run_id)
-                        time.sleep(3)
-                    
-                    response = openai.beta.threads.messages.list(
-                        thread_id=st.session_state.thread_id
-                    )
-
-                    if response.data:
-                        print(response.data[0].content[0].text.value)
-                        st.session_state.msg_bot.append(response.data[0].content[0].text.value) 
-                    else:
-                        st.session_state.msg_bot.append("Non ho capito la domanda...")
-
-            if "msg_bot" in st.session_state:
-                bot_messages_count = len(st.session_state.msg_bot)
-                for i in range(len(st.session_state.msg_bot)):
-                    with st.chat_message("ai"):
-                        st.write(st.session_state.msg_bot[i])
-                        if bot_messages_count == 10:
-                            st.write("Attenzione, la conversazione sta diventando lunga. Potrei avere difficoltà a mantenere tutto in memoria. TI CONSIGLIO DI RICARICARE LA PAGINA ")
-                        if bot_messages_count >= 12:
-                            st.write("Attenzione, la conversazione sta diventando lunga. Potrei avere difficoltà a mantenere tutto in memoria. TI CONSIGLIO DI RICARICARE LA PAGINA ")
-                    
-                    if "msg" in st.session_state:
-                        if i < len(st.session_state.msg):
-                            if st.session_state.msg[i]:
-                                with st.chat_message("user"):
-                                    st.write(st.session_state.msg[i])
+            inference(id_assistente)
