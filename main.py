@@ -46,7 +46,7 @@ if openaiKey:
 
                 stored_file = []
                 if carica_file:
-                    file_up = st.file_uploader("📚 Carica il file", type=['csv', 'txt', 'pdf'], accept_multiple_files=True)
+                    file_up = st.file_uploader("📚 Carica il file", type=['csv', 'txt', 'pdf', 'ipynb'], accept_multiple_files=True)
                     if file_up:
                         if st.button("❇ Carica File"):
                             with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
