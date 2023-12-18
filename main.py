@@ -64,14 +64,15 @@ if openaiKey:
         with st.status("Carico i documenti su OpenAI..", expanded=True) as status:
 
             client = OpenAI()
-
-            if len(stored_file) > 0:
-                
+            if len(stored_file) > 0: 
                 file_id = []
-                for file in stored_file:
+                for file in file_up:
                     try:
-                        my_file = upload_file(file)
-                        st.write(my_file)
+                        my_file = client.files.create(
+                        file=open(file.name, "rb"),
+                        purpose='assistants'
+                        )
+                        time.sleep(1)
                         status.update(label="File caricato: " + my_file.name)
                         print(my_file.id)
                     except:
