@@ -104,10 +104,12 @@ if openaiKey:
                 zip_file = zipfile.ZipFile("config_assistente.zip", "w")
                 zip_file.write("config_assistente.yaml")
 
-                for file in stored_file:
-                    zip_file.write(file)
+                if file_up:
+                    for file in file_up:
+                        with open(file.name, "rb") as f:
+                            zip_file.write(file.name)
                 zip_file.close()
-
+                
                 #cambia estensione e nome del file nome_assistente.iaItaliaBotConfig e st.download_button
                 col4.download_button(
                     label="Scarica il file di configurazione dell'assistente",
