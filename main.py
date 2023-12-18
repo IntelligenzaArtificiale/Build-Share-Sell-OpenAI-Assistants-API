@@ -51,10 +51,12 @@ if openaiKey:
                     with NamedTemporaryFile(dir='.', suffix='.csv') as f:
                         f.write(file.getbuffer())
                         stored_file.append(f.name)
+                st.write(stored_file)
             else:
                 with NamedTemporaryFile(dir='.', suffix='.csv') as f:
                     f.write(file_up.getbuffer())
                     stored_file.append(f.name)
+                st.write(stored_file)
 
     if st.button("Crea Assistente"):
         client = OpenAI()
