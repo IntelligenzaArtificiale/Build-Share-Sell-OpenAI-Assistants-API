@@ -64,7 +64,9 @@ if openaiKey:
         with st.status("Carico i documenti su OpenAI..", expanded=True) as status:
 
             client = OpenAI()
-            if len(stored_file) > 0: 
+
+            if file_up: 
+                st.write("Carico i file su OpenAI..")
                 file_id = []
                 for file in file_up:
                     try:
