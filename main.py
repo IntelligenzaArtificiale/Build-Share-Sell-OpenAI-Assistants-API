@@ -71,6 +71,7 @@ if openaiKey:
                 for file in stored_file:
                     try:
                         my_file = upload_file(file)
+                        st.write(my_file)
                         status.update(label="File caricato: " + my_file.name)
                         print(my_file.id)
                     except:
