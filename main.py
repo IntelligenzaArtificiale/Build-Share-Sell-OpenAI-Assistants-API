@@ -37,6 +37,7 @@ if openaiKey:
             stored_file = file
 
     if st.button("Crea Assistente"):
+        client = OpenAI()
 
         if stored_file is not None:
             file_id = []
