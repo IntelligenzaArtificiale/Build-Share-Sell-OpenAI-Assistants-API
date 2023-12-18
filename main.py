@@ -48,6 +48,9 @@ if openaiKey:
                 if carica_file:
                     file_up = st.file_uploader("📚 Carica il file", type=['csv', 'txt', 'pdf', 'ipynb'], accept_multiple_files=True)
                     if file_up:
+                        if len(file_up) > 20:
+                            st.error("Puoi caricare al massimo 20 file")
+                            st.stop()
                         if st.button("❇ Carica File"):
                             with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
                                 for file in file_up:
