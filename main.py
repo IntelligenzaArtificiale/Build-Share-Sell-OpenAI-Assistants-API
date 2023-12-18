@@ -257,7 +257,7 @@ if openaiKey:
                 st.rerun()
 
 
-        input = st.chat_input(placeholder="Scrivi quì il tuo problema legale...")
+        input = st.chat_input(placeholder="Scrivi quì la tua domanda...")
 
         if input:
             st.session_state.msg.append(input)
