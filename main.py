@@ -46,15 +46,15 @@ if openaiKey:
         if file_up:
             if st.button("Carica i file su OpenAI"):
                 with st.status("Carico i file su OpenAI..", expanded=True) as status:
-                for file in file_up:
-                    time.sleep(2)
-                    status.update(label="Sto caricando il file: " + file.name)
-                    with open(f"{file.name}", "wb") as f:
-                        f.write(file.getbuffer())
-                    additional_file_id = upload_to_openai(f"{file.name}")
-                    st.write(additional_file_id)
-                    stored_file.append(additional_file_id)
-                status.update(label="File caricati con successo", state="complete")
+                    for file in file_up:
+                        time.sleep(2)
+                        status.update(label="Sto caricando il file: " + file.name)
+                        with open(f"{file.name}", "wb") as f:
+                            f.write(file.getbuffer())
+                        additional_file_id = upload_to_openai(f"{file.name}")
+                        st.write(additional_file_id)
+                        stored_file.append(additional_file_id)
+                    status.update(label="File caricati con successo", state="complete")
 
 
 
