@@ -45,17 +45,15 @@ if openaiKey:
         file_up = st.file_uploader("Carica il file", type=['csv',"txt","pdf"] ,accept_multiple_files = True)
         
 
-        if file_up is not None:
+        if file_up:
             if len(file_up) > 1:
                 for file in file_up:
                     with NamedTemporaryFile(dir='.', suffix='.csv') as f:
                         f.write(file.getbuffer())
-                        your_function_which_takes_a_path(f.name)
                         stored_file.append(f.name)
             else:
                 with NamedTemporaryFile(dir='.', suffix='.csv') as f:
                     f.write(file_up.getbuffer())
-                    your_function_which_takes_a_path(f.name)
                     stored_file.append(f.name)
 
     if st.button("Crea Assistente"):
