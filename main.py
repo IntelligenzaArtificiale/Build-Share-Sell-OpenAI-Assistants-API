@@ -48,7 +48,8 @@ if openaiKey:
         if file_up:
             if len(file_up) > 1:
                 for file in file_up:
-                    with NamedTemporaryFile(dir='.', suffix='.csv') as f:
+                    suffix = file.name.split(".")[1]
+                    with NamedTemporaryFile(dir='.', suffix='.'+suffix) as f:
                         f.write(file.getbuffer())
                         stored_file.append(f.name)
                 st.write(stored_file)
@@ -61,7 +62,7 @@ if openaiKey:
     if st.button("Crea Assistente"):
         client = OpenAI()
 
-        if stored_file is not None:
+        if len(stored_file) > 0:
             file_id = []
             for file in stored_file:
                 try:
