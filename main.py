@@ -60,38 +60,51 @@ if openaiKey:
                 st.write(stored_file)
 
     if st.button("Crea Assistente"):
-        client = OpenAI()
 
-        if len(stored_file) > 0:
-            file_id = []
-            for file in stored_file:
-                try:
-                    my_file = upload_file(file)
-                    print(my_file.id)
-                except:
-                    print("file non caricato")
+        with st.status("Carico i documenti su OpenAI..", expanded=True) as status:
 
+            client = OpenAI()
 
+            if len(stored_file) > 0:
+                
+                file_id = []
+                for file in stored_file:
+                    try:
+                        my_file = upload_file(file)
+                        status.update(label="File caricato: " + my_file.name)
+                        print(my_file.id)
+                    except:
+                        print("file non caricato")
 
-            my_assistant = client.beta.assistants.create(
-                instructions=prompt_sistema,
-                name=nome_assistente,
-                tools=[{"type": "retrieval"}],
-                model=modello_assistente,
-                file_ids=file_id
-            )
-            st.write(my_assistant)
-            st.success("Assistente creato con successo")
-            st.info("L'id dell'assistente è: " + my_assistant.id)
+                status.update(label="File caricati con successo")
+                time.sleep(2)
+                status.update(label="Creo l'assistente..")
+                my_assistant = client.beta.assistants.create(
+                    instructions=prompt_sistema,
+                    name=nome_assistente,
+                    tools=[{"type": "retrieval"}],
+                    model=modello_assistente,
+                    file_ids=file_id
+                )
+                st.write(my_assistant)
+                status.update(label="Assistente creato con successo", state="complete")
+                
+                st.success("Assistente creato con successo")
+                st.info("L'id dell'assistente è: " + my_assistant.id)
+                st.error("Ricorda di salvare l'id dell'assistente per poterlo utilizzare in seguito")
 
-        else:
-            my_assistant = client.beta.assistants.create(
-                instructions=prompt_sistema,
-                name=nome_assistente,
-                model=modello_assistente,
-            )
-            st.write(my_assistant)
-            st.success("Assistente creato con successo")
-            st.info("L'id dell'assistente è: " + my_assistant.id)
+            else:
+                status.update(label="Creo l'assistente..")
+                my_assistant = client.beta.assistants.create(
+                    instructions=prompt_sistema,
+                    name=nome_assistente,
+                    model=modello_assistente,
+                )
+                st.write(my_assistant)
+                status.update(label="Assistente creato con successo", state="complete")
 
-    
+                st.success("Assistente creato con successo")
+                st.info("L'id dell'assistente è: " + my_assistant.id)
+                st.error("Ricorda di salvare l'id dell'assistente per poterlo utilizzare in seguito")
+
+        
