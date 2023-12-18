@@ -11,13 +11,12 @@ st.title("Assistant BUILDER")
 openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 
 def upload_file(file_path):
-    
 	# Upload a file with an "assistants" purpose
 	file_to_upload = client.files.create(
   	file=open(file_path, "rb"),
   	purpose='assistants'
 	)
-    return file_to_upload
+	return file_to_upload
 
 if openaiKey:
 
