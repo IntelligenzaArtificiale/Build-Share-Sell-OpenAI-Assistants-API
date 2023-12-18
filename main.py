@@ -20,7 +20,9 @@ if openaiKey:
             nome_assistente = st.text_input("Nome dell'assistente")
 
         with col2:
-            modello_assistente = st.selectbox("gpt-4-1106-preview")
+            modello_assistente = st.selectbox(
+            'How would you like to be contacted?',
+            ('gpt-4-1106-preview', 'gpt-4-1106-preview', 'gpt-4-1106-preview'))
 
         if nome_assistente and modello_assistente:
 
