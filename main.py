@@ -28,6 +28,10 @@ def create_assistant_from_config_file(file_up, client):
             nome_assistente = config_data.get('name', '')
             modello_assistente = config_data.get('model', '')
             prompt_sistema = config_data.get('prompt', '')
+            st.write("Nome Assistente: " + nome_assistente)
+            st.write("Modello Assistente: " + modello_assistente)
+            st.write("Prompt Assistente: " + prompt_sistema)
+            
 
         if os.path.exists("temp_folder"):
             for root, dirs, files in os.walk("temp_folder"):
