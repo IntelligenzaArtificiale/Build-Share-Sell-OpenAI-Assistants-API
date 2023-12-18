@@ -84,7 +84,7 @@ if openaiKey:
             #crea un bottone per scaricare un file.txt con l'ID dell'assistente
             col3.download_button(
                 label="Scarica l'ID dell'assistente",
-                data=my_assistant.id,
+                data="ID dell'assistente: " + my_assistant.id + "\nOpenAI API Key: " + openaiKey,
                 file_name="id_assistente_" + nome_assistente.replace(" ", "_") + ".txt",
                 mime="text/plain",
             )
@@ -109,7 +109,7 @@ if openaiKey:
                         with open(file.name, "rb") as f:
                             zip_file.write(file.name)
                 zip_file.close()
-                
+
                 #cambia estensione e nome del file nome_assistente.iaItaliaBotConfig e st.download_button
                 col4.download_button(
                     label="Scarica il file di configurazione dell'assistente",
