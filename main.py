@@ -8,11 +8,11 @@ import yaml
 from inference_assistant import inference
 from utils import create_assistant_from_config_file, upload_to_openai
 
-st.title("Assistant BUILDER & SHARING")
+st.title("Assistant BUILDER🚧 & SHARING🤗")
 
-utilizzo = st.selectbox("Ciao, cosa vuoi fare?", ("Crea o Importa un Assistente", "Usa un Assistente"))
+utilizzo = st.selectbox("🤖 Ciao, cosa vuoi fare?", ("Crea o Importa un Assistente", "Usa un Assistente"))
 
-openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
+openaiKey = st.text_input("🔑Inserisci la tua API Key di OpenAI")
 
 
 if openaiKey:
@@ -22,7 +22,7 @@ if openaiKey:
 
     if utilizzo != "Usa un Assistente":
         scelta_creazione = st.selectbox(
-            'Cosa vuoi fare?',
+            '💻 Cosa vuoi fare?',
             ('Crea un Assistente da Zero', 'Importa un Assistente'),
             index=0
         )
@@ -31,24 +31,24 @@ if openaiKey:
             col1, col2 = st.columns(2)
 
             with col1:
-                nome_assistente = st.text_input("Nome dell'assistente")
+                nome_assistente = st.text_input("👶 Nome dell'assistente")
 
             with col2:
                 modello_assistente = st.selectbox(
-                    'Scegli il modello',
+                    '🛒 Scegli il modello',
                     ('gpt-4-1106-preview', 'gpt-4'),
                     index=0
                 )
 
             if nome_assistente and modello_assistente:
-                prompt_sistema = st.text_area("Prompt del sistema", height=200)
-                carica_file = st.checkbox("Vuoi caricare File? ")
+                prompt_sistema = st.text_area("📄 Prompt del sistema", height=200)
+                carica_file = st.checkbox("📚 Vuoi caricare File? ")
 
                 stored_file = []
                 if carica_file:
-                    file_up = st.file_uploader("Carica il file", type=['csv', 'txt', 'pdf'], accept_multiple_files=True)
+                    file_up = st.file_uploader("📚 Carica il file", type=['csv', 'txt', 'pdf'], accept_multiple_files=True)
                     if file_up:
-                        if st.button("Carica File"):
+                        if st.button("❇ Carica File"):
                             with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
                                 for file in file_up:
                                     time.sleep(2)
@@ -61,7 +61,7 @@ if openaiKey:
                                         stored_file.append(additional_file_id)
                                 status.update(label="File caricati con successo", state="complete", expanded=False)
 
-                if st.button("Crea Assistente") and prompt_sistema:
+                if st.button("🤖 Crea Assistente") and prompt_sistema:
                     with st.status("Creazione assistente in corso...", expanded=True) as status:
                         time.sleep(2)
                         status.update(label="Creo l'assistente...")
@@ -81,7 +81,7 @@ if openaiKey:
                             )
 
                         time.sleep(2)
-                        status.update(label="Assistente creato con successo", state="complete")
+                        status.update(label="👌 Assistente creato con successo", state="complete")
 
                         st.success("Assistente creato con successo")
                         st.info("L'ID dell'assistente è: " + my_assistant.id)
