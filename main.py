@@ -17,7 +17,7 @@ def upload_file(file_path):
   	file=open(file_path, "rb"),
   	purpose='assistants'
 	)
-     return file_to_upload
+    return file_to_upload
 
 if openaiKey:
 
