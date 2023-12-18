@@ -49,7 +49,7 @@ if openaiKey:
             if len(file_up) > 1:
                 for file in file_up:
                     suffix = file.name.split(".")[-1]
-                    with NamedTemporaryFile(delete=False, suffix=f".{suffix}") as tmp_file:
+                    with NamedTemporaryFile(delete=False,dir='.', suffix=f".{suffix}") as tmp_file:
                         tmp_file.write(file.read())
                         st.write(tmp_file.name)
 
