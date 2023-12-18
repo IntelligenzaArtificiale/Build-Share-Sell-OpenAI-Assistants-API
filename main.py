@@ -158,9 +158,9 @@ if openaiKey:
 
                     st.balloons()
 
-                    
+
     else:
-        file_up = st.file_uploader("Carica il file .iaItaliaBotConfig", type=['zip'], accept_multiple_files=False)
+        file_up = st.file_uploader("Carica il file .iaItaliaBotConfig", type=['iaItaliaBotConfig'], accept_multiple_files=False)
         if file_up:
             if st.button("Crea Assistant Importato"):
                 my_assistant = create_assistant_from_config_file(file_up, nome_assistente, modello_assistente, client)
