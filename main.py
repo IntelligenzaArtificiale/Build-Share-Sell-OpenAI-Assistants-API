@@ -130,6 +130,7 @@ if openaiKey:
                     st.success("Assistente creato con successo")
                     st.info("L'ID dell'assistente è: " + my_assistant.id)
                     st.error("Ricorda di salvare l'ID dell'assistente per utilizzarlo in seguito")
+                    st.success("Per utilizzare l'assistente importato, copia l'ID e incollalo nella sezione 'Usa un Assistente'")
 
 
                 col3, col4 = st.columns(2)
@@ -187,6 +188,7 @@ if openaiKey:
                     st.success("Assistente importato creato con successo")
                     st.info("L'ID dell'assistente importato è: " + my_assistant.id)
                     st.error("Ricorda di salvare l'ID dell'assistente per utilizzarlo in seguito")
+                    st.success("Per utilizzare l'assistente importato, copia l'ID e incollalo nella sezione 'Usa un Assistente'")
 
                 st.download_button(
                     label="Scarica l'ID dell'assistente importato",
