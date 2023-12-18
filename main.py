@@ -24,7 +24,7 @@ if openaiKey:
 
     os.environ["OPENAI_API_KEY"] = openaiKey
     openai.api_key = openaiKey
-
+    client = OpenAI()
     col1, col2 = st.columns(2)
 
     with col1:
@@ -48,22 +48,26 @@ if openaiKey:
         if file_up:
             if len(file_up) > 1:
                 for file in file_up:
-                    suffix = file.name.split(".")[1]
-                    with NamedTemporaryFile(dir='.', suffix='.'+suffix) as f:
-                        f.write(file.getbuffer())
-                        stored_file.append(f.name)
-                st.write(stored_file)
+                    # carico i file su openai 
+                    file = client.files.create(
+                    file=open(file.name, "rb"),
+                    purpose='assistants'
+                    )
+                    stored_file.append(file)
+                    st.write(file)
             else:
-                with NamedTemporaryFile(dir='.', suffix='.csv') as f:
-                    f.write(file_up.getbuffer())
-                    stored_file.append(f.name)
-                st.write(stored_file)
+                file = client.files.create(
+                    file=open(file_up.name, "rb"),
+                    purpose='assistants'
+                    )
+                stored_file.append(file)
+                st.write(file)
 
     if st.button("Crea Assistente"):
 
         with st.status("Carico i documenti su OpenAI..", expanded=True) as status:
 
-            client = OpenAI()
+            
 
             if file_up: 
                 st.write("Carico i file su OpenAI..")
