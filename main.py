@@ -17,7 +17,7 @@ def upload_to_openai(file):
 
 
 
-def create_assistant_from_config_file(file_up, nome_assistente, modello_assistente, client):
+def create_assistant_from_config_file(file_up, client):
     stored_file = []
     with st.spinner("Estrazione e caricamento file in corso..."):
         with zipfile.ZipFile(file_up, 'r') as zip_ref:
@@ -25,6 +25,8 @@ def create_assistant_from_config_file(file_up, nome_assistente, modello_assisten
 
         with open("temp_folder/config_assistente.yaml", "r") as yaml_file:
             config_data = yaml.safe_load(yaml_file)
+            nome_assistente = config_data.get('name', '')
+            modello_assistente = config_data.get('model', '')
             prompt_sistema = config_data.get('prompt', '')
 
         if os.path.exists("temp_folder"):
@@ -44,6 +46,7 @@ def create_assistant_from_config_file(file_up, nome_assistente, modello_assisten
             )
 
     return my_assistant
+
 
 if openaiKey:
     os.environ["OPENAI_API_KEY"] = openaiKey
@@ -163,7 +166,8 @@ if openaiKey:
         file_up = st.file_uploader("Carica il file .iaItaliaBotConfig", type=['iaItaliaBotConfig'], accept_multiple_files=False)
         if file_up:
             if st.button("Crea Assistant Importato"):
-                my_assistant = create_assistant_from_config_file(file_up, nome_assistente, modello_assistente, client)
+                client = openai.OpenAI()
+                my_assistant = create_assistant_from_config_file(file_up, client)
 
                 with st.status("Creazione assistente importato in corso...", expanded=True) as status:
                     time.sleep(2)
