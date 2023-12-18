@@ -43,7 +43,7 @@ if openaiKey:
             file_id = []
             for file in stored_file:
                 try:
-                    my_file =
+                    my_file =[]
                     client.files.create(
                     file=open(file, "rb"),
                     purpose="assistants"
