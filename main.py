@@ -46,7 +46,7 @@ if openaiKey:
         
 
         if file_up:
-            if len(file_up) > 1:
+            if st.button("Carica i file su OpenAI"):
                 for file in file_up:
                     suffix = file.name.split(".")[-1]
                     st.write(suffix)
@@ -63,15 +63,9 @@ if openaiKey:
                         stored_file.append(file)
                         st.write(file)
 
-            else:
-                file = client.files.create(
-                    file=open(file_up.name, "rb"),
-                    purpose='assistants'
-                    )
-                stored_file.append(file)
-                st.write(file)
 
-    if st.button("Crea Assistente"):
+
+    if (st.button("Crea Assistente") and nome_assistente and modello_assistente and prompt_sistema):
 
         with st.status("Carico i documenti su OpenAI..", expanded=True) as status:
 
