@@ -112,7 +112,7 @@ if openaiKey:
                 col4.download_button(
                     label="Scarica il file di configurazione dell'assistente",
                     data="config_assistente.zip",
-                    file_name=nome_assistente + ".iaItaliaBotConfig",
+                    file_name=nome_assistente + ".zip",
                     mime="application/zip",
                 )
 
