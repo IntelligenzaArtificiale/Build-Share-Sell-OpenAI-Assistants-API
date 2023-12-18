@@ -48,7 +48,8 @@ if openaiKey:
         if file_up:
             if len(file_up) > 1:
                 for file in file_up:
-                    with NamedTemporaryFile(delete=False) as tmp_file:
+                    suffix = file.name.split(".")[-1]
+                    with NamedTemporaryFile(delete=False, suffix=f".{suffix}") as tmp_file:
                         tmp_file.write(file.read())
                         st.write(tmp_file.name)
 
@@ -59,7 +60,7 @@ if openaiKey:
                         )
                         stored_file.append(file)
                         st.write(file)
-                        
+
             else:
                 file = client.files.create(
                     file=open(file_up.name, "rb"),
