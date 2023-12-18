@@ -22,8 +22,8 @@ def upload_file(file_path):
 if openaiKey:
 
     import os
-    OPENAI_API_KEY= "<YOUR PRIVATE KEY>"
-    os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
+    os.environ["OPENAI_API_KEY"] = openaiKey
     openai.api_key = openaiKey
 
     col1, col2 = st.columns(2)
