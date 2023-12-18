@@ -83,3 +83,4 @@ if openaiKey:
                     file_name="id_assistente.txt",
                     mime="text/plain",
                 )
+                st.balloons()
