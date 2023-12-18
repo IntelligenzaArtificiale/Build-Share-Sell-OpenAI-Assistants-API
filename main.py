@@ -40,17 +40,18 @@ if openaiKey:
         if carica_file:
             file_up = st.file_uploader("Carica il file", type=['csv', 'txt', 'pdf'], accept_multiple_files=True)
             if file_up:
-                with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
-                    for file in file_up:
-                        time.sleep(2)
-                        status.update(label="Sto caricando il file: " + file.name)
-                        with open(file.name, "wb") as f:
-                            f.write(file.getbuffer())
-                        additional_file_id = upload_to_openai(file)
-                        if additional_file_id:
-                            st.write("File caricato con successo: " + file.name)
-                            stored_file.append(additional_file_id)
-                    status.update(label="File caricati con successo", state="complete", expanded=False)
+                if st.button("Carica File"):
+                    with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
+                        for file in file_up:
+                            time.sleep(2)
+                            status.update(label="Sto caricando il file: " + file.name)
+                            with open(file.name, "wb") as f:
+                                f.write(file.getbuffer())
+                            additional_file_id = upload_to_openai(file)
+                            if additional_file_id:
+                                st.write("File caricato con successo: " + file.name)
+                                stored_file.append(additional_file_id)
+                        status.update(label="File caricati con successo", state="complete", expanded=False)
 
         if st.button("Crea Assistente") and prompt_sistema:
             with st.status("Creazione assistente in corso...", expanded=True) as status:
