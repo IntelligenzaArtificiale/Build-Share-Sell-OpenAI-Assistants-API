@@ -191,6 +191,6 @@ if openaiKey:
                 st.download_button(
                     label="Scarica l'ID dell'assistente importato",
                     data="ID dell'assistente: " + my_assistant.id + "\nOpenAI API Key: " + openaiKey,
-                    file_name="id_assistente_" + nome_assistente.replace(" ", "_") + ".txt",
+                    file_name="id_assistente.txt",
                     mime="text/plain",
                 )
