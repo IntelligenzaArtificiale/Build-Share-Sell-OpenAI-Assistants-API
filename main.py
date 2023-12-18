@@ -10,10 +10,20 @@ st.title("Assistant BUILDER")
 
 openaiKey = st.text_input("Inserisci la tua API Key di OpenAI")
 
+def upload_file(file_path):
+    
+	# Upload a file with an "assistants" purpose
+	file_to_upload = client.files.create(
+  	file=open(file_path, "rb"),
+  	purpose='assistants'
+	)
+     return file_to_upload
 
 if openaiKey:
 
-
+    import os
+    OPENAI_API_KEY= "<YOUR PRIVATE KEY>"
+    os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
     openai.api_key = openaiKey
 
     col1, col2 = st.columns(2)
@@ -30,13 +40,17 @@ if openaiKey:
 
         prompt_sistema = st.text_area("Prompt del sistema", height=200)
 
-    stored_file = None
+    stored_file = []
 
     if st.checkbox("Vuoi caricare File ? "):
-        file = st.file_uploader("Carica il file", accept_multiple_files = True)
+        file_up = st.file_uploader("Carica il file", type=['csv',"txt","pdf"] ,accept_multiple_files = True)
+        
 
-        if file:
-            stored_file = file
+        if file_up is not None:
+            with NamedTemporaryFile(dir='.', suffix='.csv') as f:
+                f.write(file_up.getbuffer())
+                your_function_which_takes_a_path(f.name)
+                stored_file.append(f.name)
 
     if st.button("Crea Assistente"):
         client = OpenAI()
@@ -45,12 +59,7 @@ if openaiKey:
             file_id = []
             for file in stored_file:
                 try:
-                    my_file =[]
-                    client.files.create(
-                    file=open(file, "rb"),
-                    purpose="assistants"
-                    )
-                    file_id = file_id.append(my_file.id)
+                    my_file = upload_file(file)
                     print(my_file.id)
                 except:
                     print("file non caricato")
@@ -74,6 +83,8 @@ if openaiKey:
                 name=nome_assistente,
                 model=modello_assistente,
             )
-            print(my_assistant)
+            st.write(my_assistant)
+            st.success("Assistente creato con successo")
+            st.info("L'id dell'assistente è: " + my_assistant.id)
 
     
