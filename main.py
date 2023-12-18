@@ -35,10 +35,6 @@ if openaiKey:
                 stored_file = file
 
 
-
-
-
-
         if stored_file is not None:
             file_id = []
             for file in stored_file:
