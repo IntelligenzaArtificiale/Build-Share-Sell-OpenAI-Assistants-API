@@ -46,7 +46,7 @@ if openaiKey:
 
                 stored_file = []
                 if carica_file:
-                    file_up = st.file_uploader("📚 Upload File", type=['csv', 'txt', 'pdf', 'ipynb'], accept_multiple_files=True)
+                    file_up = st.file_uploader("📚 Upload File", type=['.c', '.cpp', '.ipynb', '.docx', '.html', '.java', '.json', '.md', '.pdf', '.php', '.pptx', '.py', '.py', '.rb', '.tex', '.txt'], accept_multiple_files=True)
                     if file_up:
                         if len(file_up) > 20:
                             st.error("🛑 You can upload a maximum of 20 files")
