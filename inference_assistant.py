@@ -1,3 +1,6 @@
+# THis file contains the code for the inference of the assistant
+# Path: inference_assistant.py
+
 import streamlit as st
 import openai
 import time
@@ -5,7 +8,7 @@ import time
 def inference(id_assistente):
     if "msg_bot" not in st.session_state:
         st.session_state.msg_bot = []
-        st.session_state.msg_bot.append("Ciao, sono il tuo assistente AI...")
+        st.session_state.msg_bot.append("Hi🤗, I'm your assistant. How can I help you?")
         st.session_state.msg = []
         
         try :
@@ -15,7 +18,7 @@ def inference(id_assistente):
         
             st.session_state.thread_id = my_thread_id
         except:
-            st.error("C'è stato un problema con i Server di OpenAI")
+            st.error("🛑 There was a problem with OpenAI Servers")
             time.sleep(5)
             st.rerun()
             
@@ -39,7 +42,7 @@ def inference(id_assistente):
             
                 return run.id
             except:
-                st.error("C'è stato un problema con i Server di OpenAI")
+                st.error("🛑 There was a problem with OpenAI Servers")
 
         time.sleep(5)
         st.rerun()
@@ -52,16 +55,16 @@ def inference(id_assistente):
             )
             return run.status
         except:
-            st.error("C'è stato un problema con i Server di OpenAI")
+            st.error("🛑 There was a problem with OpenAI Servers")
             time.sleep(5)
             st.rerun()
 
 
-    input = st.chat_input(placeholder="Scrivi quì la tua domanda...")
+    input = st.chat_input(placeholder="🖊 Write a message...")
 
     if input:
         st.session_state.msg.append(input)
-        with st.spinner("Sto pensando..."):
+        with st.spinner("🤖 Thinking..."):
             run_id = get_response(input)
             status = check_status(run_id)
             
@@ -77,20 +80,21 @@ def inference(id_assistente):
                 print(response.data[0].content[0].text.value)
                 st.session_state.msg_bot.append(response.data[0].content[0].text.value) 
             else:
-                st.session_state.msg_bot.append("Non ho capito la domanda...")
+                st.session_state.msg_bot.append("😫 Sorry, I didn't understand. Can you rephrase?")
 
     if "msg_bot" in st.session_state:
         bot_messages_count = len(st.session_state.msg_bot)
         for i in range(len(st.session_state.msg_bot)):
             with st.chat_message("ai"):
                 st.write(st.session_state.msg_bot[i])
-                if bot_messages_count == 10:
-                    st.write("Attenzione, la conversazione sta diventando lunga. Potrei avere difficoltà a mantenere tutto in memoria. TI CONSIGLIO DI RICARICARE LA PAGINA ")
-                if bot_messages_count >= 12:
-                    st.write("Attenzione, la conversazione sta diventando lunga. Potrei avere difficoltà a mantenere tutto in memoria. TI CONSIGLIO DI RICARICARE LA PAGINA ")
-            
+                
+                
             if "msg" in st.session_state:
                 if i < len(st.session_state.msg):
                     if st.session_state.msg[i]:
                         with st.chat_message("user"):
                             st.write(st.session_state.msg[i])
+
+    if "msg_bot" in st.session_state:
+        if len(st.session_state.msg) > 0 :
+            export_chat()
