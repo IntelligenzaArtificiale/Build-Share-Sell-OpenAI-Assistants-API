@@ -163,4 +163,10 @@ if openaiKey:
         id_assistente = st.text_input("🆔 Insert the ID of the assistant")
 
         if id_assistente:
-            inference(id_assistente)
+            try: 
+                inference(id_assistente)
+            except Exception as e:
+                st.error("🛑 There was a problem with OpenAI Servers")
+                st.error(e)
+                if st.button("🔄 Restart"):
+                    st.rerun()
