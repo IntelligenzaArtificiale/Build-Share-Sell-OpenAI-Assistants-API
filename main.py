@@ -166,10 +166,7 @@ if openaiKey:
                         file_name="id_ASSISTANT_" + my_assistant + ".txt",
                         mime="text/plain",
                     )
-        html_chat = '<center><h6>🤗 Support the project with a donation for the development of new features 🤗</h6>'
-        html_chat += '<br><a href="https://rebrand.ly/SupportAUTOGPTfree"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal donate button" /></a><center><br>'
-        st.markdown(html_chat, unsafe_allow_html=True)
-        st.write('Made with ❤️ by [Alessandro CIciarelli](https://intelligenzaartificialeitalia.net)')
+        
 
 
     else:
@@ -185,3 +182,8 @@ if openaiKey:
                 st.error(e)
                 if st.button("🔄 Restart"):
                     st.rerun()
+
+html_chat = '<center><h6>🤗 Support the project with a donation for the development of new features 🤗</h6>'
+html_chat += '<br><a href="https://rebrand.ly/SupportAUTOGPTfree"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal donate button" /></a><center><br>'
+st.markdown(html_chat, unsafe_allow_html=True)
+st.write('Made with ❤️ by [Alessandro CIciarelli](https://intelligenzaartificialeitalia.net)')
