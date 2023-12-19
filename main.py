@@ -8,7 +8,7 @@ import yaml
 from inference_assistant import inference
 from utils import create_assistant_from_config_file, upload_to_openai, export_assistant
 
-st.title("Assistant BUILDER🚧 & SHARING🤗")
+st.title("Develop 🚧 & Share🤗 your OpenAI ASSISTANT🤖")
 
 utilizzo = st.selectbox("🤖 Hi, what do you want to do?", ("Create or Import an Assistant", "Use an Assistant"))
 
