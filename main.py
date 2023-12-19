@@ -44,6 +44,8 @@ if openaiKey:
                 prompt_sistema = st.text_area("📄 Prompt del sistema", height=200)
                 carica_file = st.checkbox("📚 Vuoi caricare File? ")
 
+                
+
                 stored_file = []
                 if carica_file:
                     file_up = st.file_uploader("📚 Carica il file", type=['csv', 'txt', 'pdf', 'ipynb'], accept_multiple_files=True)
@@ -51,6 +53,7 @@ if openaiKey:
                         if len(file_up) > 20:
                             st.error("Puoi caricare al massimo 20 file")
                             st.stop()
+                        st.info("Ricorda di premer il bottone 'Carica File' per caricare i file su OpenAI")
                         if st.button("❇ Carica File"):
                             with st.status("Caricamento file su OpenAI in corso...", expanded=True) as status:
                                 for file in file_up:
