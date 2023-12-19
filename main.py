@@ -20,6 +20,10 @@ st.set_page_config(
 )
 
 st.title("Build🚧, Share🤗 and Sell💸 OpenAI Assistants🤖")
+html_chat = '<center><h6>🤗 Support the project with a donation for the development of new features 🤗</h6>'
+html_chat += '<br><a href="https://rebrand.ly/SupportAUTOGPTfree"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal donate button" /></a><center><br>'
+st.markdown(html_chat, unsafe_allow_html=True)
+st.write('Made with ❤️ by [Alessandro CIciarelli](https://intelligenzaartificialeitalia.net)')
 
 utilizzo = st.selectbox("🤖 Hi, what do you want to do?", ("Create or Import an Assistant", "Use an Assistant"))
 
