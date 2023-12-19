@@ -135,7 +135,7 @@ if openaiKey:
                     client = openai.OpenAI()
                     
 
-                    with st.status("Creazione assistente importato in corso...", expanded=True) as status:
+                    with st.status("⏲ Assistant creation in progress...", expanded=True) as status:
                         time.sleep(0.5)
                         status.update(label="Estrazione e caricamento file in corso...", state="running")
                         time.sleep(0.5)
@@ -150,9 +150,9 @@ if openaiKey:
                         colb.info("📤 To share the assistant, download Assistant Configuration File and send it")
 
                     st.download_button(
-                        label="Scarica l'ID dell'assistente importato",
-                        data="ID dell'assistente: " + my_assistant.id + "\nOpenAI API Key: " + openaiKey,
-                        file_name="id_assistente.txt",
+                        label="🗂 Download ID Assistant",
+                        data="ASSISTANT ID : " + my_assistant.id + "\nOpenAI API Key: " + openaiKey,
+                        file_name="id_ASSISTANT_" + my_assistant + ".txt",
                         mime="text/plain",
                     )
 
@@ -160,7 +160,7 @@ if openaiKey:
     else:
         # Inferenza con Assistente
 
-        id_assistente = st.text_input("Inserisci l'ID dell'assistente")
+        id_assistente = st.text_input("🆔 Insert the ID of the assistant")
 
         if id_assistente:
             inference(id_assistente)
