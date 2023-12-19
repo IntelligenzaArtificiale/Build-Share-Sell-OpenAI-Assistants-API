@@ -63,21 +63,24 @@ if openaiKey:
                                         st.write("File caricato con successo: " + file.name + " ID: " + additional_file_id)
                                         stored_file.append(additional_file_id)
                                 st.write("File caricati con successo: " + str(len(stored_file)))
+                                if 'id_file' not in st.session_state:
+                                    st.session_state.id_file = []
+                                st.session_state.id_file = stored_file
                                 status.update(label="File caricati con successo", state="complete", expanded=False)
 
                 if st.button("🤖 Crea Assistente") and prompt_sistema:
                     with st.status("Creazione assistente in corso...", expanded=True) as status:
                         time.sleep(2)
                         status.update(label="Creo l'assistente...")
-                        if len(stored_file) > 0:
+                        if "id_file" in st.session_state and len(st.session_state.id_file) > 0:
                             my_assistant = client.beta.assistants.create(
                                 instructions=prompt_sistema,
                                 name=nome_assistente,
                                 tools=[{"type": "retrieval"}],
                                 model=modello_assistente,
-                                file_ids=stored_file,
+                                file_ids=st.session_state.id_file,
                             )
-                            st.write("File caricati con successo: " + str(len(stored_file)))
+                            st.write("File caricati con successo: " + str(len(st.session_state.id_file)))
                         else:
                             my_assistant = client.beta.assistants.create(
                                 instructions=prompt_sistema,
