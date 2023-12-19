@@ -14,7 +14,7 @@ To utilize this project locally:
 3. Initiate the local server.
 
 ### Online
-Experience our online interface [here](https://assistant-api-builder-and-sharing.streamlit.app/). 
+Experience our online interface [here](https://build-share-sell-openai-assistants-api-free.streamlit.app/). 
 
 # todo 
 - Implement code interpreter
