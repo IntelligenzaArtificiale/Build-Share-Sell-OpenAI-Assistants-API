@@ -60,15 +60,16 @@ if openaiKey:
                                         f.write(file.getbuffer())
                                     additional_file_id = upload_to_openai(file)
                                     if additional_file_id:
-                                        st.write("File caricato con successo: " + file.name)
+                                        st.write("File caricato con successo: " + file.name + " ID: " + additional_file_id)
                                         stored_file.append(additional_file_id)
+                                st.write("File caricati con successo: " + str(len(stored_file)))
                                 status.update(label="File caricati con successo", state="complete", expanded=False)
 
                 if st.button("🤖 Crea Assistente") and prompt_sistema:
                     with st.status("Creazione assistente in corso...", expanded=True) as status:
                         time.sleep(2)
                         status.update(label="Creo l'assistente...")
-                        if stored_file:
+                        if len(stored_file) > 0:
                             my_assistant = client.beta.assistants.create(
                                 instructions=prompt_sistema,
                                 name=nome_assistente,
@@ -76,6 +77,7 @@ if openaiKey:
                                 model=modello_assistente,
                                 file_ids=stored_file,
                             )
+                            st.write("File caricati con successo: " + str(len(stored_file)))
                         else:
                             my_assistant = client.beta.assistants.create(
                                 instructions=prompt_sistema,
