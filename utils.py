@@ -4,6 +4,15 @@ import yaml
 import openai
 import streamlit as st
 
+def clean_environment():
+    """Clean up environment variables."""
+    if "OPENAI_API_KEY" in os.environ:
+        del os.environ["OPENAI_API_KEY"]
+    if "OPENAI_ORGANIZATION_ID" in os.environ:
+        del os.environ["OPENAI_ORGANIZATION_ID"]
+    if "OPENAI_DEFAULT_ORGANIZATION_ID" in os.environ:
+        del os.environ["OPENAI_DEFAULT_ORGANIZATION_ID"]
+
 
 def upload_to_openai(file):
     """Upload a file to OpenAI and return its file ID."""
