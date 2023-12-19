@@ -12,6 +12,32 @@ def upload_to_openai(file):
     return response.id if response else None
 
 
+def export_assistant(nome_assistente, modello_assistente, prompt_sistema, file_up):
+    file_yaml = open("config_assistente.yaml", "w")
+    file_yaml.write("name: " + nome_assistente + "\n")
+    file_yaml.write("model: " + modello_assistente + "\n")
+    file_yaml.close()
+
+    #Crea file.txt per sistem_prompt
+    file_prompt = open("prompt.txt", "w")
+    file_prompt.write(prompt_sistema)
+    file_prompt.close()
+
+
+    #CREO IL FILE ZIP
+    zip_file = zipfile.ZipFile("config_assistente.zip", "w")
+    zip_file.write("config_assistente.yaml")
+    zip_file.write("prompt.txt")
+
+    if file_up:
+        for file in file_up:
+            with open(file.name, "rb") as f:
+                zip_file.write(file.name)
+    zip_file.close()
+
+    return open("config_assistente.zip", "rb")
+
+
 
 def create_assistant_from_config_file(file_up, client):
     stored_file = []
@@ -34,7 +60,7 @@ def create_assistant_from_config_file(file_up, client):
 
         with open("temp_folder/prompt.txt", "r") as prompt_file:
             prompt_sistema = prompt_file.read()
-            
+
 
         if os.path.exists("temp_folder"):
             for root, dirs, files in os.walk("temp_folder"):

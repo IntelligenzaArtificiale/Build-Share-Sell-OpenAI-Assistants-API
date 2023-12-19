@@ -6,7 +6,7 @@ import zipfile
 import yaml
 
 from inference_assistant import inference
-from utils import create_assistant_from_config_file, upload_to_openai
+from utils import create_assistant_from_config_file, upload_to_openai, export_assistant
 
 st.title("Assistant BUILDER🚧 & SHARING🤗")
 
@@ -92,15 +92,17 @@ if openaiKey:
                                 name=nome_assistente,
                                 model=modello_assistente,
                             )
-                            status.update(label="👌 Assistente creato con successo", state="complete")
+                            status.update(label="👌 Assistant created successfully", state="complete", expanded=False)
 
 
                         time.sleep(1)
 
-                        st.success("Assistente creato con successo")
-                        st.info("L'ID dell'assistente è: " + my_assistant.id)
-                        st.error("Ricorda di salvare l'ID dell'assistente per utilizzarlo in seguito")
-                        st.success("Per utilizzare l'assistente importato, copia l'ID e incollalo nella sezione 'Usa un Assistente'")
+                        st.success("✅ Assistant created successfully")
+                        st.info("🆗 ID of the assistant: " + my_assistant.id)
+                        st.error("⛔ Remember to save the ID of the assistant to use it later")
+                        cola, colb = st.columns(2)
+                        cola.info("📥 To use the assistant, copy the ID and paste it in the 'Use an Assistant' section")
+                        colb.info("📤 To share the assistant, download Assistant Configuration File and send it")
 
 
                     col3, col4 = st.columns(2)
@@ -113,58 +115,39 @@ if openaiKey:
                     )
 
                     with st.spinner("📥 Building Assistant Configuration File..."):
-                        time.sleep(2)
+                        data_to_export = export_assistant(nome_assistente, modello_assistente, prompt_sistema, file_up)
                         
-                        #CREO IL FILE DI CONFIGURAZIONE YAML con i dati dell'assistente : Nome, Modello, Sistem_prompt
-                        file_yaml = open("config_assistente.yaml", "w")
-                        file_yaml.write("name: " + nome_assistente + "\n")
-                        file_yaml.write("model: " + modello_assistente + "\n")
-                        file_yaml.close()
-
-                        #Crea file.txt per sistem_prompt
-                        file_prompt = open("prompt.txt", "w")
-                        file_prompt.write(prompt_sistema)
-                        file_prompt.close()
-
-
-                        #CREO IL FILE ZIP
-                        zip_file = zipfile.ZipFile("config_assistente.zip", "w")
-                        zip_file.write("config_assistente.yaml")
-                        zip_file.write("prompt.txt")
-
-                        if file_up:
-                            for file in file_up:
-                                with open(file.name, "rb") as f:
-                                    zip_file.write(file.name)
-                        zip_file.close()
-
-                        #cambia estensione e nome del file nome_assistente.iaItaliaBotConfig e st.download_button
                         col4.download_button(
                             label="🗂 Download Assistant Configuration File",
-                            data=open("config_assistente.zip", "rb"),
+                            data=data_to_export,
                             file_name=nome_assistente + ".iaItaliaBotConfig",
                             mime="application/zip",
                         )
 
 
-                        st.balloons()
+                    st.balloons()
 
 
         else:
-            file_up = st.file_uploader("Carica il file .iaItaliaBotConfig", type=['iaItaliaBotConfig'], accept_multiple_files=False)
+            file_up = st.file_uploader("📥 Upload .iaItaliaBotConfig", type=['iaItaliaBotConfig'], accept_multiple_files=False)
             if file_up:
-                if st.button("Crea Assistant Importato"):
+                if st.button("🤖 Build imported Assistant"):
                     client = openai.OpenAI()
-                    my_assistant = create_assistant_from_config_file(file_up, client)
+                    
 
                     with st.status("Creazione assistente importato in corso...", expanded=True) as status:
-                        time.sleep(2)
+                        time.sleep(0.5)
+                        status.update(label="Estrazione e caricamento file in corso...", state="running")
+                        time.sleep(0.5)
+                        my_assistant = create_assistant_from_config_file(file_up, client)
                         status.update(label="Assistente importato creato con successo", state="complete")
 
-                        st.success("Assistente importato creato con successo")
-                        st.info("L'ID dell'assistente importato è: " + my_assistant.id)
-                        st.error("Ricorda di salvare l'ID dell'assistente per utilizzarlo in seguito")
-                        st.success("Per utilizzare l'assistente importato, copia l'ID e incollalo nella sezione 'Usa un Assistente'")
+                        st.success("✅ Assistant created successfully")
+                        st.info("🆗 ID of the assistant: " + my_assistant.id)
+                        st.error("⛔ Remember to save the ID of the assistant to use it later")
+                        cola, colb = st.columns(2)
+                        cola.info("📥 To use the assistant, copy the ID and paste it in the 'Use an Assistant' section")
+                        colb.info("📤 To share the assistant, download Assistant Configuration File and send it")
 
                     st.download_button(
                         label="Scarica l'ID dell'assistente importato",
