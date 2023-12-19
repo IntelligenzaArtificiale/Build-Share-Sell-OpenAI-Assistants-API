@@ -12,8 +12,6 @@ st.title("Develop 🚧 & Share🤗 your OpenAI ASSISTANT🤖")
 
 utilizzo = st.selectbox("🤖 Hi, what do you want to do?", ("Create or Import an Assistant", "Use an Assistant"))
 
-openaiKey = st.text_input("🔑 Pls insert your OpenAI API Key")
-
 if utilizzo != "Use an Assistant":
     scelta_creazione = st.selectbox(
         '💻 Do you want to create an assistant from scratch or import an assistant?',
@@ -21,6 +19,7 @@ if utilizzo != "Use an Assistant":
         index=0
     )
 
+openaiKey = st.text_input("🔑 Pls insert your OpenAI API Key")
 if openaiKey:
     os.environ["OPENAI_API_KEY"] = openaiKey
     openai.api_key = openaiKey
