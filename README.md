@@ -5,7 +5,7 @@
 https://github.com/IntelligenzaArtificiale/Build-Share-Sell-OpenAI-Assistants-API/assets/108482353/752e6a6d-b5d9-484c-a6eb-f2aef26f91dd
 
 
-
+Please go to [this page](https://discuss.streamlit.io/t/build-share-sell-openai-assistants-api-for-free/57718) and vote or comment our project 🙏
 
 ## Mission
 In the vast realm of Artificial Intelligence, accessibility and sharing are pivotal. Our mission is to democratize AI by providing accessible tools to create, share, and monetize AI assistants.
