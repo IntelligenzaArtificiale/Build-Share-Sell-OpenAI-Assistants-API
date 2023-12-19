@@ -14,18 +14,17 @@ utilizzo = st.selectbox("🤖 Hi, what do you want to do?", ("Create or Import a
 
 openaiKey = st.text_input("🔑 Pls insert your OpenAI API Key")
 
+if utilizzo != "Use an Assistant":
+    scelta_creazione = st.selectbox(
+        '💻 Do you want to create an assistant from scratch or import an assistant?',
+        ('Create an Assistant from Scratch', 'Import an Assistant from .iaItaliaBotConfig'),
+        index=0
+    )
 
 if openaiKey:
     os.environ["OPENAI_API_KEY"] = openaiKey
     openai.api_key = openaiKey
     client = openai.OpenAI()
-
-    if utilizzo != "Use an Assistant":
-        scelta_creazione = st.selectbox(
-            '💻 Do you want to create an assistant from scratch or import an assistant?',
-            ('Create an Assistant from Scratch', 'Import an Assistant from .iaItaliaBotConfig'),
-            index=0
-        )
 
         if scelta_creazione == "Create an Assistant from Scratch":
             col1, col2 = st.columns(2)
