@@ -1,5 +1,12 @@
 # 🚀 Build Share Sell OpenAI Assistants API
 
+
+
+https://github.com/IntelligenzaArtificiale/Build-Share-Sell-OpenAI-Assistants-API/assets/108482353/752e6a6d-b5d9-484c-a6eb-f2aef26f91dd
+
+
+Please go to [this page](https://discuss.streamlit.io/t/build-share-sell-openai-assistants-api-for-free/57718) and vote or comment our project 🙏
+
 ## Mission
 In the vast realm of Artificial Intelligence, accessibility and sharing are pivotal. Our mission is to democratize AI by providing accessible tools to create, share, and monetize AI assistants.
 
@@ -10,8 +17,9 @@ Welcome to a revolutionary ecosystem enabling the development of OpenAI-based as
 ### Local
 To utilize this project locally:
 1. Clone the repository onto your machine.
-2. Install the necessary requirements. 
-3. Initiate the local server.
+2. Install the necessary requirements. `pip3 install -r requirments.txt`
+3. Initiate the local server. `streamlit run main.py`
+
 
 ### Online
 Experience our online interface [here](https://build-share-sell-openai-assistants-api-free.streamlit.app/). 
