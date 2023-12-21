@@ -74,7 +74,7 @@ def create_assistant_from_config_file(file_up, client):
         if os.path.exists("temp_folder"):
             for root, dirs, files in os.walk("temp_folder"):
                 for file in files:
-                    if file != "config_assistente.yaml":
+                    if file != "config_assistente.yaml" and file != "prompt.txt":
                         additional_file_id = upload_to_openai(open(os.path.join(root, file), "rb"))
                         if additional_file_id:
                             stored_file.append(additional_file_id)

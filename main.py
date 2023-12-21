@@ -163,7 +163,7 @@ if openaiKey:
                     st.download_button(
                         label="🗂 Download ID Assistant",
                         data="ASSISTANT ID : " + my_assistant.id + "\nOpenAI API Key: " + openaiKey,
-                        file_name="id_ASSISTANT_" + my_assistant.id + ".txt",
+                        file_name="id_ASSISTANT.txt",
                         mime="text/plain",
                     )
         
