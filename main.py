@@ -140,7 +140,7 @@ if openaiKey:
 
 
         else:
-            file_up = st.file_uploader("📥 Upload .iaItaliaBotConfig", type=['iaItaliaBotConfig'], accept_multiple_files=False)
+            file_up = st.file_uploader("📥 Upload .iaItaliaBotConfig", type=['.iaItaliaBotConfig'], accept_multiple_files=False)
             if file_up:
                 if st.button("🤖 Build imported Assistant"):
                     client = openai.OpenAI()
